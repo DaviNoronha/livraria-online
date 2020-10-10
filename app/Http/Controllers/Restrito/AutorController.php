@@ -2,69 +2,63 @@
 
 namespace App\Http\Controllers\Restrito;
 
-use App\DataTables\AutorDataTable;
+use App\DataTables\LivroDataTable;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AutorRequest;
-use App\Models\Autor;
-use App\Services\AutorService;
+use App\Models\Livro;
+use App\Services\LivroService;
 use Illuminate\Http\Request;
 
-class AutorController extends Controller
+class LivroController extends Controller
 {
-    public function index(AutorDataTable $autorDataTable)
+    public function index(LivroDataTable $livroDataTable)
     {
-        return $autorDataTable->render('restrito.autor.index');
+        return $livroDataTable->render('restrito.livro.index');
     }
 
     public function create()
     {
-        return view('restrito.autor.form');
+        return view('restrito.livro.form');
     }
 
-    public function store(AutorRequest $request)
+    public function store(Request $request)
     {
-        $autor = AutorService::store($request->all());
+        $livro = LivroService::store($request->all());
 
-        if ($autor) {
-            return redirect()->route('restrito.autors.index')
-                        ->withSucesso('Autor salvo com sucesso');
+        if ($livro) {
+            return redirect()->route('restrito.livros.index')
+                        ->withSucesso('Livro salvo com sucesso');
         }
 
         return back()->withInput()
-                    ->withFalha('Erro ao salvar o autor');
+                    ->withFalha('Erro ao salvar o livro');
     }
 
-    public function edit(Autor $autor)
+    public function edit(Livro $livro)
     {
-        return view('restrito.autor.form', compact('autor'));
+        return view('restrito.livro.form', compact('livro'));
     }
 
-    public function update(AutorRequest $request, Autor $autor)
+    public function update(Request $request, Livro $livro)
     {
-        $autor = AutorService::update($request->all(), $autor);
+        $livro = LivroService::update($request->all(), $livro);
 
-        if ($autor) {
-            return redirect()->route('restrito.autors.index')
-                        ->withSucesso('Autor atualizado com sucesso');
+        if ($livro) {
+            return redirect()->route('restrito.livros.index')
+                        ->withSucesso('Livro atualizado com sucesso');
         }
 
         return back()->withInput()
-                    ->withFalha('Erro ao atualizar o autor');
+                    ->withFalha('Erro ao atualizar o livro');
     }
 
-    public function destroy(Autor $autor)
+    public function destroy(Livro $livro)
     {
-        $deleteAutor = AutorService::destroy($autor);
+        $deleteLivro = LivroService::destroy($livro);
 
-        if ($deleteAutor) {
+        if ($deleteLivro) {
             return response('Apagado com sucesso', 200);
         }
 
         return response('Erro ao apagar', 400);
-    }
-
-    public function listaAutores(Request $request)
-    {
-        return AutorService::listaAutores($request);
     }
 }

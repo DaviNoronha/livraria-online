@@ -31,7 +31,12 @@ class LivroService
                 $request['capa'] = UploadService::salvarArquivo($request['capa'], UploadService::CAPA_LIVRO);
             }
 
-            return $livro->update($request);
+            $retorno = $livro->update($request);
+            
+            $livro->autors()->sync($request['autor']);
+
+            return $retorno;
+        
         } catch (Throwable $th) {
             Log::error($th->getMessage());
             return null;

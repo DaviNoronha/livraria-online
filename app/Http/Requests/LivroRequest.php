@@ -17,7 +17,7 @@ class LivroRequest extends FormRequest
         return [
             'nome' => 'required|string',
             'paginas' => 'required|integer',
-            'capa' => 'required|file',
+            'capa' => 'required|image',
             'valor' => 'required|decimal'
         ];
     }
